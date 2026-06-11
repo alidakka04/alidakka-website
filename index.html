@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manikk | Portfolyo</title>
+    <title data-i18n="title">Manikk | Portfolyo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -106,10 +106,10 @@
             <h1 class="glitch-text m-0" data-text="Manik">Manik</h1>
             <div class="flex flex-wrap justify-center gap-4 pt-2">
                 <a href="https://www.faceit.com/tr/players/Manikk" target="_blank" class="px-8 py-3 rounded-full font-bold bg-[#ff5500]/10 text-[#ff5500] border border-[#ff5500]/50 hover:bg-[#ff5500] hover:text-white transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(255,85,0,0.2)] hover:shadow-[0_0_30px_rgba(255,85,0,0.5)] hover:-translate-y-1">
-                    <svg role="img" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"><path d="M23.999 2.705a.167.167 0 00-.312-.1 1141.27 1141.27 0 00-6.053 9.375H.218c-.221 0-.301.282-.11.352 7.227 2.73 17.667 6.836 23.5 9.134.15.06.39-.08.39-.18z"/></svg> Faceit Profili
+                    <svg role="img" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"><path d="M23.999 2.705a.167.167 0 00-.312-.1 1141.27 1141.27 0 00-6.053 9.375H.218c-.221 0-.301.282-.11.352 7.227 2.73 17.667 6.836 23.5 9.134.15.06.39-.08.39-.18z"/></svg> <span data-i18n="faceit_profile">Faceit Profili</span>
                 </a>
-                <a href="https://steamcommunity.com/profiles/76561198858013891" target="_blank" class="px-8 py-3 rounded-full font-bold bg-white/5 text-white border border-white/10 hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2 hover:-translate-y-1">
-                    <i class="fab fa-steam"></i> Steam Profili
+                <a href="https://steamcommunity.com/profiles/76561198858013891" target="_blank" class="px-8 py-3 rounded-full font-bold bg-white/10 text-white border border-white/30 hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:-translate-y-1">
+                    <i class="fab fa-steam"></i> <span data-i18n="steam_profile">Steam Profili</span>
                 </a>
             </div>
         </header>
@@ -118,41 +118,41 @@
         <section id="faceit-section" class="glass-panel p-8 md:p-12">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-white/5 gap-4">
                 <div>
-                    <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">İstatistikler</h2>
-                    <p class="text-zinc-400 text-sm">Faceit API ile canlı senkronizasyon</p>
+                    <h2 class="text-3xl font-bold text-white mb-2 tracking-tight" data-i18n="stats_title">İstatistikler</h2>
+                    <p class="text-zinc-400 text-sm" data-i18n="stats_desc">Faceit API ile canlı senkronizasyon</p>
                 </div>
                 <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold tracking-wider uppercase">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#34d399] animate-pulse-fast"></span> Canlı
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#34d399] animate-pulse-fast"></span> <span data-i18n="live">Canlı</span>
                 </div>
             </div>
             
             <div id="faceit-loading" class="flex flex-col items-center justify-center py-16 space-y-4">
                 <div class="w-8 h-8 border-2 border-zinc-600 border-t-faceit rounded-full animate-spin"></div>
-                <p class="text-zinc-500 font-medium">Oyuncu verileri alınıyor...</p>
+                <p class="text-zinc-500 font-medium" data-i18n="loading_data">Oyuncu verileri alınıyor...</p>
             </div>
 
             <div id="faceit-data" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 hidden">
                 <div class="glass-card p-6 flex flex-col items-center justify-center text-center group">
-                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-3 group-hover:text-zinc-300 transition-colors">Seviye</span>
+                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-3 group-hover:text-zinc-300 transition-colors" data-i18n="level">Seviye</span>
                     <img id="faceit-level-icon" src="" alt="Level" class="w-14 h-14 drop-shadow-xl transform group-hover:scale-110 transition-transform duration-500">
                 </div>
                 <div class="glass-card p-6 flex flex-col items-center justify-center text-center group">
-                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-2 group-hover:text-zinc-300 transition-colors">Elo Puanı</span>
+                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-2 group-hover:text-zinc-300 transition-colors" data-i18n="elo">Elo Puanı</span>
                     <strong id="faceit-elo" class="text-4xl font-black text-white group-hover:text-faceit transition-colors duration-300">-</strong>
                 </div>
                 <div class="glass-card p-6 flex flex-col items-center justify-center text-center group">
-                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-2 group-hover:text-zinc-300 transition-colors">K/D Oranı</span>
+                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-2 group-hover:text-zinc-300 transition-colors" data-i18n="kd_ratio">K/D Oranı</span>
                     <strong id="faceit-kd" class="text-4xl font-black text-white">-</strong>
                 </div>
                 <div class="glass-card p-6 flex flex-col items-center justify-center text-center group">
-                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-2 group-hover:text-zinc-300 transition-colors">Kazanma Oranı</span>
+                    <span class="text-zinc-500 text-[10px] uppercase tracking-[0.2em] font-bold mb-2 group-hover:text-zinc-300 transition-colors" data-i18n="win_rate">Kazanma Oranı</span>
                     <strong id="faceit-winrate" class="text-4xl font-black text-white">-</strong>
                 </div>
             </div>
             
             <div class="hidden" id="recent-matches-container">
                 <h3 class="text-sm uppercase tracking-[0.2em] font-bold mb-6 text-zinc-400 flex items-center gap-3">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Son Maçlar
+                    <i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="recent_matches">Son Maçlar</span>
                 </h3>
                 <div id="recent-matches-list" class="space-y-3">
                     <!-- JS ile doldurulacak -->
@@ -163,15 +163,15 @@
         <!-- Setup Specs Section -->
         <section class="glass-panel p-8 md:p-12">
             <div class="mb-10 pb-6 border-b border-white/5">
-                <h2 class="text-3xl font-bold text-white mb-2 tracking-tight">Ekipmanlar</h2>
-                <p class="text-zinc-400 text-sm">Bilgisayar ve donanım yapılandırması</p>
+                <h2 class="text-3xl font-bold text-white mb-2 tracking-tight" data-i18n="equipment_title">Ekipmanlar</h2>
+                <p class="text-zinc-400 text-sm" data-i18n="equipment_desc">Bilgisayar ve donanım yapılandırması</p>
             </div>
             
             <div class="space-y-16">
                 <!-- PC Build -->
                 <div>
                     <h3 class="text-sm uppercase tracking-[0.2em] font-bold mb-8 text-zinc-400 flex items-center gap-3">
-                        <i class="fa-solid fa-microchip"></i> Sistem Bileşenleri
+                        <i class="fa-solid fa-microchip"></i> <span data-i18n="pc_build">Sistem Bileşenleri</span>
                     </h3>
                     
                     <div class="mb-10 w-full max-w-md mx-auto overflow-hidden rounded-[2rem] border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
@@ -185,52 +185,52 @@
                         <!-- Specs -->
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/islemci.png" alt="İşlemci" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=CPU'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">İşlemci</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="cpu">İşlemci</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">AMD RYZEN 5 7600X</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/ekran-karti.png" alt="Ekran Kartı" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=GPU'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Ekran Kartı</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="gpu">Ekran Kartı</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">ASUS PRIME RTX 5070 WHT</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/anakart.png" alt="Anakart" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=MB'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Anakart</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="motherboard">Anakart</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">MSI B850M G-PLUS WHT</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/ram.png" alt="RAM" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=RAM'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Bellek</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="ram">Bellek</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">LEXAR ARES 32GB 6400MHz</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/sogutucu.png" alt="Soğutucu" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=COOL'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Soğutma</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="cooler">Soğutma</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">ASUS MAX LC 360mm ARGB</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/kasa.png" alt="Kasa" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=CASE'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Kasa</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="case">Kasa</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">BITFENIX MH100 WHITE</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/ssd.png" alt="SSD" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=SSD'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Depolama</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="storage">Depolama</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">TEAM T-FORCE 1TB NVMe</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/fan.png" alt="Fan" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=FAN'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Fanlar</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="fans">Fanlar</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">LIAN LI UNI FAN CL WLS</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/monitor1.png" alt="Monitör 1" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=MON1'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Ana Monitör</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="monitor1">Ana Monitör</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">AOC 310 Hz FAST IPS</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/monitor2.png" alt="Monitör 2" class="h-12 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=MON2'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">İkinci Monitör</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="monitor2">İkinci Monitör</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">Excalibur 200 Hz FAST IPS</span>
                         </div>
                     </div>
@@ -239,37 +239,37 @@
                 <!-- Peripherals -->
                 <div>
                     <h3 class="text-sm uppercase tracking-[0.2em] font-bold mb-8 text-zinc-400 flex items-center gap-3">
-                        <i class="fa-solid fa-headphones"></i> Çevre Birimleri
+                        <i class="fa-solid fa-headphones"></i> <span data-i18n="peripherals">Çevre Birimleri</span>
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/mouse.png" alt="Mouse" class="h-10 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=MOU'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Mouse</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="mouse">Mouse</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">GPX SUPERLIGHT 2 WHT</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/klavye.png" alt="Klavye" class="h-10 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=KEY'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Keyboard</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="keyboard">Keyboard</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">LOGITECH G515 TKL WHT</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/kulaklik.png" alt="Kulaklık" class="h-10 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=HS'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Headset</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="headset">Headset</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">LOGITECH G733 WHITE</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/mousepad.png" alt="Mousepad" class="h-10 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=PAD'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Mousepad</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="mousepad">Mousepad</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">Wraith Spirit of Aim Pro</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/skatez.png" alt="Skatez" class="h-10 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=SKT'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Skatez</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="skates">Skatez</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">Hoverpad V3</span>
                         </div>
                         <div class="glass-card p-5 flex flex-col items-center justify-center text-center min-h-[160px]">
                             <img src="ekipmanlar/koltuk.png" alt="Koltuk" class="h-10 object-contain mb-5 opacity-70 hover:opacity-100 transition-opacity" onerror="this.src='https://placehold.co/60x60/111/555?text=CHR'">
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5">Koltuk</span>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-bold mb-1.5" data-i18n="chair">Koltuk</span>
                             <span class="font-medium text-[13px] text-zinc-200 leading-tight">Hawk Fab c5 White</span>
                         </div>
                     </div>
@@ -292,10 +292,10 @@
         </a>
         <div class="flex flex-col flex-1 min-w-0">
             <div class="text-[10px] uppercase tracking-widest text-spotify mb-1 flex items-center gap-1.5 font-bold">
-                <i class="fab fa-spotify animate-pulse"></i> Şu An Çalıyor
+                <i class="fab fa-spotify animate-pulse"></i> <span data-i18n="now_playing">Şu An Çalıyor</span>
             </div>
-            <div id="spotify-title" class="text-[0.95rem] font-bold text-white whitespace-nowrap overflow-hidden text-ellipsis leading-tight mb-0.5">Başlık</div>
-            <div id="spotify-artist" class="text-[0.8rem] text-zinc-400 whitespace-nowrap overflow-hidden text-ellipsis mb-2">Sanatçı</div>
+            <div id="spotify-title" class="text-[0.95rem] font-bold text-white whitespace-nowrap overflow-hidden text-ellipsis leading-tight mb-0.5" data-i18n="title_placeholder">Başlık</div>
+            <div id="spotify-artist" class="text-[0.8rem] text-zinc-400 whitespace-nowrap overflow-hidden text-ellipsis mb-2" data-i18n="artist_placeholder">Sanatçı</div>
             
             <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden mb-1.5 relative">
                 <div id="spotify-progress-bar" class="absolute top-0 left-0 h-full bg-spotify w-0 rounded-full transition-all duration-1000 ease-linear shadow-[0_0_10px_rgba(29,185,84,0.5)]"></div>
@@ -307,6 +307,7 @@
         </div>
     </div>
 
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,3 +1,39 @@
+
+// Localization Logic
+const supportedLangs = ['tr', 'en', 'de', 'ru', 'da', 'uk', 'fr', 'ro', 'pt'];
+let currentLang = 'en'; // default fallback
+
+// Get browser language (e.g., 'tr-TR', 'en-US', 'de', 'pt-BR')
+const browserLang = navigator.language || navigator.userLanguage;
+const baseLang = browserLang.split('-')[0].toLowerCase();
+
+if (supportedLangs.includes(baseLang)) {
+    currentLang = baseLang;
+}
+
+// Function to translate keys
+function t(key) {
+    if (translations[currentLang] && translations[currentLang][key]) {
+        return translations[currentLang][key];
+    }
+    return translations['en'][key] || key;
+}
+
+// Apply translations to DOM
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang] && translations[currentLang][key]) {
+            el.innerText = translations[currentLang][key];
+        } else if (translations['en'][key]) {
+            el.innerText = translations['en'][key];
+        }
+    });
+}
+
+// Run translation on load
+document.addEventListener('DOMContentLoaded', applyTranslations);
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchFaceitStats();
 });
