@@ -31,6 +31,14 @@ function applyTranslations() {
     });
 }
 
+// Manual language switcher
+window.changeLang = function(lang) {
+    if (supportedLangs.includes(lang)) {
+        currentLang = lang;
+        applyTranslations();
+    }
+};
+
 // Run translation on load
 document.addEventListener('DOMContentLoaded', applyTranslations);
 
