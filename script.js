@@ -45,7 +45,7 @@ function renderFaceitData(data) {
         data.recent_matches.forEach(match => {
             const isWin = match.is_win;
             const matchDiv = document.createElement('div');
-            matchDiv.className = `glass-card p-4 flex justify-between items-center border-l-4 ${isWin ? 'border-emerald-500/50 hover:border-emerald-500' : 'border-red-500/50 hover:border-red-500'}`;
+            matchDiv.className = `glass-card p-4 flex justify-between items-center border-l-4 ${isWin ? 'border-emerald-500/50 hover:border-emerald-600 bg-white shadow-sm' : 'border-red-500/50 hover:border-red-600 bg-white shadow-sm'}`;
             
             let dateStr = "";
             if (match.finished_at) {
@@ -56,25 +56,25 @@ function renderFaceitData(data) {
             
             const matchKd = match.deaths > 0 ? (match.kills / match.deaths).toFixed(2) : match.kills.toFixed(2);
             
-            let kdClass = "text-red-400";
+            let kdClass = "text-red-500";
             const kdValue = parseFloat(matchKd);
             if (kdValue >= 1.50) {
-                kdClass = "text-yellow-400 drop-shadow-[0_0_10px_#ffcc00] font-black";
+                kdClass = "text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)] font-black";
             } else if (kdValue >= 1.0) {
-                kdClass = "text-emerald-400";
+                kdClass = "text-emerald-500";
             }
             
             matchDiv.innerHTML = `
                 <div class="flex flex-col">
                     <div class="flex items-center gap-3">
-                        <span class="font-bold text-white text-lg">${match.map}</span>
-                        <span class="font-semibold px-2 py-0.5 rounded bg-white/5 text-zinc-300 text-sm border border-white/5">${match.score}</span>
+                        <span class="font-bold text-slate-900 text-lg">${match.map}</span>
+                        <span class="font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-sm border border-slate-200">${match.score}</span>
                     </div>
-                    ${dateStr ? `<span class="text-[11px] text-zinc-500 mt-1 font-medium tracking-wide">🕒 ${dateStr}</span>` : ''}
+                    ${dateStr ? `<span class="text-[11px] text-slate-500 mt-1 font-medium tracking-wide">🕒 ${dateStr}</span>` : ''}
                 </div>
                 <div class="text-right flex flex-col items-end justify-center">
-                    <div class="text-xl font-black text-white tracking-tight">${match.kills}<span class="text-zinc-500 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${kdClass}">${matchKd} K/D</span></div>
-                    ${match.adr !== "?" ? `<div class="text-xs text-zinc-400 mt-1 font-medium">${match.adr} <span class="text-[9px] text-zinc-500 uppercase tracking-widest">ADR</span></div>` : ''}
+                    <div class="text-xl font-black text-slate-900 tracking-tight">${match.kills}<span class="text-slate-500 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${kdClass}">${matchKd} K/D</span></div>
+                    ${match.adr !== "?" ? `<div class="text-xs text-slate-500 mt-1 font-medium">${match.adr} <span class="text-[9px] text-slate-500 uppercase tracking-widest">ADR</span></div>` : ''}
                 </div>
             `;
             matchesList.appendChild(matchDiv);
