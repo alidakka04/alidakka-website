@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manik</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <!-- Hero Section -->
+        <header class="hero glass">
+            <h1 class="glitch-text" data-text="Manik">Manik</h1>
+            <div class="social-links">
+                <a href="https://steamcommunity.com/profiles/76561198858013891" target="_blank" class="btn btn-steam">Steam Profili</a>
+                <a href="https://www.faceit.com/tr/players/Manikk" target="_blank" class="btn btn-faceit">Faceit Profili</a>
+            </div>
+        </header>
+
+        <!-- Faceit Live Stats Section -->
+        <section class="faceit-stats glass">
+            <div class="section-header">
+                <h2>Canlı Faceit İstatistikleri</h2>
+                <div class="status-indicator">
+                    <span class="pulse"></span> Güncelleniyor
+                </div>
+            </div>
+            
+            <div id="faceit-loading" class="loading">Faceit verileri çekiliyor...</div>
+            <div id="faceit-data" class="faceit-grid hidden">
+                <div class="stat-card">
+                    <span class="stat-label">Seviye</span>
+                    <img id="faceit-level-icon" src="" alt="Level" class="level-icon">
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Elo Puanı</span>
+                    <strong id="faceit-elo" class="stat-value text-accent">-</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">K/D Oranı</span>
+                    <strong id="faceit-kd" class="stat-value">-</strong>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Kazanma Oranı</span>
+                    <strong id="faceit-winrate" class="stat-value">-</strong>
+                </div>
+            </div>
+            
+            <div class="recent-matches hidden" id="recent-matches-container">
+                <h3>Son 5 Maç</h3>
+                <div id="recent-matches-list" class="matches-list">
+                    <!-- JS ile doldurulacak -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup Specs Section -->
+        <section class="specs-section glass">
+            <div class="section-header">
+                <h2>Beyaz Setup Özellikleri</h2>
+            </div>
+            
+            <div class="specs-category">
+                <h3>🖥️ Sistem Özellikleri</h3>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/islemci.png" alt="İşlemci" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=CPU'"></div>
+                        <div class="spec-info"><span class="spec-label">İşlemci</span> <span class="spec-val">AMD RYZEN 5 7600X</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/ekran-karti.png" alt="Ekran Kartı" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=GPU'"></div>
+                        <div class="spec-info"><span class="spec-label">Ekran Kartı</span> <span class="spec-val">ASUS PRIME RTX 5070 WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/anakart.png" alt="Anakart" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=MOBO'"></div>
+                        <div class="spec-info"><span class="spec-label">Anakart</span> <span class="spec-val">MSI B850M GAMING PLUS WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/ram.png" alt="RAM" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=RAM'"></div>
+                        <div class="spec-info"><span class="spec-label">RAM</span> <span class="spec-val">2x LEXAR ARES 16 GB 6400 MHz WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/sogutucu.png" alt="Sıvı Soğutucu" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=COOL'"></div>
+                        <div class="spec-info"><span class="spec-label">Sıvı Soğutucu</span> <span class="spec-val">ASUS MAX Gaming LC 360mm ARGB LCD White</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/kasa.png" alt="Kasa" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=CASE'"></div>
+                        <div class="spec-info"><span class="spec-label">Kasa</span> <span class="spec-val">BITFENIX MH100 WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/ssd.png" alt="SSD" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=SSD'"></div>
+                        <div class="spec-info"><span class="spec-label">SSD Depolama</span> <span class="spec-val">TEAM T-FORCE 1TB</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/fan.png" alt="Fan" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=FAN'"></div>
+                        <div class="spec-info"><span class="spec-label">Kasa Fanları</span> <span class="spec-val">LIAN LI UNI FAN CL Wireless White</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/monitor1.png" alt="Monitör 1" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=MON1'"></div>
+                        <div class="spec-info"><span class="spec-label">1. Monitör</span> <span class="spec-val">AOC 310 Hz 0.3 MS FAST IPS</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/monitor2.png" alt="Monitör 2" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=MON2'"></div>
+                        <div class="spec-info"><span class="spec-label">2. Monitör</span> <span class="spec-val">Casper Excalibur 200 Hz 1ms FAST IPS</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-category mt-4">
+                <h3>🎧 Ekipmanlar</h3>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/mouse.png" alt="Mouse" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=MOU'"></div>
+                        <div class="spec-info"><span class="spec-label">Mouse</span> <span class="spec-val">LOGITECH G PRO X SUPERLIGHT 2 WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/klavye.png" alt="Klavye" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=KEY'"></div>
+                        <div class="spec-info"><span class="spec-label">Klavye</span> <span class="spec-val">LOGITECH G515 TKL WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/kulaklik.png" alt="Kulaklık" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=HEAD'"></div>
+                        <div class="spec-info"><span class="spec-label">Kulaklık</span> <span class="spec-val">LOGITECH G733 WHITE</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/mousepad.png" alt="Mousepad" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=PAD'"></div>
+                        <div class="spec-info"><span class="spec-label">Mousepad</span> <span class="spec-val">Wraith Spirit of Aim Pro (Hybrid)</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/skatez.png" alt="Skatez" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=SKT'"></div>
+                        <div class="spec-info"><span class="spec-label">Mouse Skatez</span> <span class="spec-val">Hoverpad V3</span></div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-img-container"><img src="ekipmanlar/koltuk.png" alt="Koltuk" class="spec-img" onerror="this.src='https://placehold.co/60x60/111/555?text=CHR'"></div>
+                        <div class="spec-info"><span class="spec-label">Oyuncu Koltuğu</span> <span class="spec-val">Hawk Fab c5 White Fabric</span></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

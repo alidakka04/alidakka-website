@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Base Utilities */
+@layer base {
+  body {
+    @apply bg-zinc-900 text-white font-sans overflow-x-hidden;
+    margin: 0;
+  }
+}
+
+/* Reusing some specific animations/styles that are hard to do inline */
+@layer components {
+  .glass {
+    @apply bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl;
+  }
+}
+
+/* Background Animation */
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f1a 100%);
+    overflow: hidden;
+}
+
+.background-animation::before,
+.background-animation::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255,85,0,0.05) 0%, transparent 20%),
+                radial-gradient(circle, rgba(0,243,255,0.05) 0%, transparent 20%);
+    background-position: 0 0, 50px 50px;
+    background-size: 100px 100px;
+    animation: drift 20s linear infinite;
+}
+
+.background-animation::after {
+    animation-direction: reverse;
+    animation-duration: 30s;
+    background-position: 25px 25px, 75px 75px;
+}
+
+@keyframes drift {
+    0% { transform: rotate(0deg) translate(0, 0); }
+    100% { transform: rotate(360deg) translate(50px, 50px); }
+}
+
+/* Glitch Effect (Restored original) */
+.glitch-text {
+    font-size: clamp(4.5rem, 10vw, 7rem);
+    font-weight: 800;
+    letter-spacing: 5px;
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+}
+
+/* 3D Hardware Parallax */
+.spec-item {
+    transform-style: preserve-3d;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+.spec-img-container {
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
