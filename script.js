@@ -4,40 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchFaceitStats() {
     try {
-        const response = await fetch('https://api.faceit.com/users/v1/nicknames/Manikk');
+        const response = await fetch('http://192.168.1.5:5000/faceit');
         
         if (!response.ok) {
             throw new Error('API Bulunamadi veya calismiyor.');
         }
         
         const data = await response.json();
-        const cs2Data = data.payload.games.cs2;
-        
-        renderFaceitData({
-            skill_level: cs2Data.skill_level,
-            faceit_elo: cs2Data.faceit_elo
-        });
+        renderFaceitData(data);
         
     } catch (error) {
-        console.warn('Faceit API baglantisi basarisiz. Demo verileri gosteriliyor...', error);
-        
-        // Demo (Mock) Veriler
-        const demoData = {
-            skill_level: 10,
-            faceit_elo: "?"
-        };
-
-        // Yükleniyormuş hissi vermek için bekle
-        setTimeout(() => {
-            renderFaceitData(demoData);
-            
-            // Local'de oldugumuzu belli eden sari uyari
-            const statusIndicator = document.querySelector('.status-indicator');
-            if(statusIndicator) {
-                statusIndicator.innerHTML = `<span class="w-2 h-2 bg-yellow-500 rounded-full shadow-[0_0_10px_#eab308] animate-pulse-fast"></span> Bağlantı Hatası`;
-                statusIndicator.title = "Faceit verileri çekilemedi.";
-            }
-        }, 800);
+        console.warn('Faceit API baglantisi basarisiz. Faceit bolumu tamamen gizleniyor...', error);
+        const faceitSection = document.getElementById('faceit-section');
+        if (faceitSection) {
+            faceitSection.classList.add('hidden');
+        }
     }
 }
 
@@ -47,6 +28,58 @@ function renderFaceitData(data) {
     
     document.getElementById('faceit-level-icon').src = `https://cdn-frontend.faceit.com/web/960/src/app/assets/images-compress/skill-icons/skill_level_${data.skill_level}_svg.svg`;
     document.getElementById('faceit-elo').textContent = data.faceit_elo;
+    
+    const kdEl = document.getElementById('faceit-kd');
+    if (kdEl) kdEl.textContent = data.average_kd;
+    
+    const winrateEl = document.getElementById('faceit-winrate');
+    if (winrateEl) winrateEl.textContent = data.win_rate + '%';
+    
+    const matchesContainer = document.getElementById('recent-matches-container');
+    const matchesList = document.getElementById('recent-matches-list');
+    
+    if (matchesContainer && data.recent_matches && data.recent_matches.length > 0) {
+        matchesContainer.classList.remove('hidden');
+        matchesList.innerHTML = ''; // Oncekileri temizle
+        
+        data.recent_matches.forEach(match => {
+            const isWin = match.is_win;
+            const matchDiv = document.createElement('div');
+            matchDiv.className = `glass-card p-4 flex justify-between items-center border-l-4 ${isWin ? 'border-emerald-500/50 hover:border-emerald-500' : 'border-red-500/50 hover:border-red-500'}`;
+            
+            let dateStr = "";
+            if (match.finished_at) {
+                const matchDate = new Date(match.finished_at * 1000);
+                const options = { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+                dateStr = matchDate.toLocaleDateString('tr-TR', options);
+            }
+            
+            const matchKd = match.deaths > 0 ? (match.kills / match.deaths).toFixed(2) : match.kills.toFixed(2);
+            
+            let kdClass = "text-red-400";
+            const kdValue = parseFloat(matchKd);
+            if (kdValue >= 1.50) {
+                kdClass = "text-yellow-400 drop-shadow-[0_0_10px_#ffcc00] font-black";
+            } else if (kdValue >= 1.0) {
+                kdClass = "text-emerald-400";
+            }
+            
+            matchDiv.innerHTML = `
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-white text-lg">${match.map}</span>
+                        <span class="font-semibold px-2 py-0.5 rounded bg-white/5 text-zinc-300 text-sm border border-white/5">${match.score}</span>
+                    </div>
+                    ${dateStr ? `<span class="text-[11px] text-zinc-500 mt-1 font-medium tracking-wide">🕒 ${dateStr}</span>` : ''}
+                </div>
+                <div class="text-right flex flex-col items-end justify-center">
+                    <div class="text-xl font-black text-white tracking-tight">${match.kills}<span class="text-zinc-500 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${kdClass}">${matchKd} K/D</span></div>
+                    ${match.adr !== "?" ? `<div class="text-xs text-zinc-400 mt-1 font-medium">${match.adr} <span class="text-[9px] text-zinc-500 uppercase tracking-widest">ADR</span></div>` : ''}
+                </div>
+            `;
+            matchesList.appendChild(matchDiv);
+        });
+    }
 }
 
 // --- Spotify Widget Logic ---
@@ -69,7 +102,7 @@ function formatTime(ms) {
 
 async function updateSpotify() {
     try {
-        const response = await fetch('/api/spotify');
+        const response = await fetch('http://192.168.1.5:5000/spotify');
         if (!response.ok) return;
         const data = await response.json();
 
@@ -102,7 +135,7 @@ setInterval(updateSpotify, 2500);
 updateSpotify();
 
 // --- 3D Parallax Effect for Hardware ---
-const specItems = document.querySelectorAll('.spec-item');
+const specItems = document.querySelectorAll('.glass-card');
 
 specItems.forEach(item => {
     item.addEventListener('mousemove', (e) => {
@@ -121,7 +154,7 @@ specItems.forEach(item => {
         item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
         
         // Make the image inside pop out
-        const imgContainer = item.querySelector('.spec-img-container');
+        const imgContainer = item.querySelector('img');
         if (imgContainer) {
             imgContainer.style.transform = 'translateZ(40px)';
         }
@@ -129,11 +162,11 @@ specItems.forEach(item => {
     
     item.addEventListener('mouseleave', () => {
         // Reset transform on mouse leave
-        item.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        item.style.transform = '';
         
-        const imgContainer = item.querySelector('.spec-img-container');
+        const imgContainer = item.querySelector('img');
         if (imgContainer) {
-            imgContainer.style.transform = 'translateZ(0px)';
+            imgContainer.style.transform = '';
         }
     });
 });
