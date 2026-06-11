@@ -7,14 +7,14 @@ async function fetchFaceitStats() {
         const response = await fetch('http://192.168.1.5:5000/faceit');
         
         if (!response.ok) {
-            throw new Error('API Bulunamadi veya calismiyor.');
+            throw new Error('API Bulunamadı veya çalışmıyor.');
         }
         
         const data = await response.json();
         renderFaceitData(data);
         
     } catch (error) {
-        console.warn('Faceit API baglantisi basarisiz. Faceit bolumu tamamen gizleniyor...', error);
+        console.warn('Faceit API bağlantısı başarısız. Faceit bölümü tamamen gizleniyor...', error);
         const faceitSection = document.getElementById('faceit-section');
         if (faceitSection) {
             faceitSection.classList.add('hidden');
@@ -40,7 +40,7 @@ function renderFaceitData(data) {
     
     if (matchesContainer && data.recent_matches && data.recent_matches.length > 0) {
         matchesContainer.classList.remove('hidden');
-        matchesList.innerHTML = ''; // Oncekileri temizle
+        matchesList.innerHTML = ''; // Öncekileri temizle
         
         data.recent_matches.forEach(match => {
             const isWin = match.is_win;
