@@ -121,7 +121,7 @@
             </div>
             
             <div id="faceit-loading" class="text-center text-zinc-400 py-10 italic">Faceit verileri çekiliyor...</div>
-            <div id="faceit-data" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 hidden">
+            <div id="faceit-data" class="grid grid-cols-2 gap-4 mb-8 hidden max-w-lg mx-auto">
                 <div class="bg-black/40 border border-white/10 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-white/5 hover:border-white/20">
                     <span class="text-zinc-400 text-sm uppercase tracking-wide mb-2">Seviye</span>
                     <img id="faceit-level-icon" src="" alt="Level" class="w-12 h-12">
@@ -129,21 +129,6 @@
                 <div class="bg-black/40 border border-white/10 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-white/5 hover:border-white/20">
                     <span class="text-zinc-400 text-sm uppercase tracking-wide mb-2">Elo Puanı</span>
                     <strong id="faceit-elo" class="text-3xl font-extrabold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">-</strong>
-                </div>
-                <div class="bg-black/40 border border-white/10 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-white/5 hover:border-white/20">
-                    <span class="text-zinc-400 text-sm uppercase tracking-wide mb-2">K/D Oranı</span>
-                    <strong id="faceit-kd" class="text-3xl font-extrabold">-</strong>
-                </div>
-                <div class="bg-black/40 border border-white/10 rounded-xl p-5 text-center flex flex-col items-center justify-center transition-all hover:bg-white/5 hover:border-white/20">
-                    <span class="text-zinc-400 text-sm uppercase tracking-wide mb-2">Kazanma Oranı</span>
-                    <strong id="faceit-winrate" class="text-3xl font-extrabold">-</strong>
-                </div>
-            </div>
-            
-            <div class="hidden" id="recent-matches-container">
-                <h3 class="text-xl font-semibold mb-4 border-l-4 border-faceit pl-3 text-zinc-200">Son 5 Maç</h3>
-                <div id="recent-matches-list" class="flex flex-col gap-3">
-                    <!-- JS ile doldurulacak -->
                 </div>
             </div>
         </section>
