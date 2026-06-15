@@ -89,7 +89,7 @@ function renderFaceitData(data) {
         data.recent_matches.forEach(match => {
             const isWin = match.is_win;
             const matchDiv = document.createElement('div');
-            matchDiv.className = `glass-card p-4 flex justify-between items-center border-l-4 ${isWin ? 'border-emerald-500/50 hover:border-emerald-500' : 'border-red-500/50 hover:border-red-500'}`;
+            matchDiv.className = `glass-card p-4 flex justify-between items-center relative overflow-hidden ${isWin ? 'border-emerald-500/50 hover:border-emerald-500' : 'border-red-500/50 hover:border-red-500'}`;
             
             let dateStr = "";
             if (match.finished_at) {
@@ -109,7 +109,8 @@ function renderFaceitData(data) {
             }
             
             matchDiv.innerHTML = `
-                <div class="flex flex-col">
+                <div class="absolute left-0 top-0 bottom-0 w-1 ${isWin ? 'bg-emerald-500' : 'bg-red-500'}"></div>
+                <div class="flex flex-col relative z-10 pl-2">
                     <div class="flex items-center gap-3">
                         <span class="font-bold text-white text-lg">${match.map}</span>
                         <span class="font-semibold px-2 py-0.5 rounded bg-white/5 text-zinc-300 text-sm border border-white/5">${match.score}</span>

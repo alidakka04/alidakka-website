@@ -1,6 +1,6 @@
 const translations = {
     "tr": {
-        "title": "Manikk | Portfolyo",
+        "title": "Manik",
         "faceit_profile": "Faceit Profili",
         "steam_profile": "Steam Profili",
         "stats_title": "İstatistikler",
@@ -40,7 +40,7 @@ const translations = {
         "score": "Skor"
     },
     "en": {
-        "title": "Manikk | Portfolio",
+        "title": "Manik",
         "faceit_profile": "Faceit Profile",
         "steam_profile": "Steam Profile",
         "stats_title": "Statistics",
@@ -80,7 +80,7 @@ const translations = {
         "score": "Score"
     },
     "de": {
-        "title": "Manikk | Portfolio",
+        "title": "Manik",
         "faceit_profile": "Faceit Profil",
         "steam_profile": "Steam Profil",
         "stats_title": "Statistiken",
@@ -120,7 +120,7 @@ const translations = {
         "score": "Ergebnis"
     },
     "ru": {
-        "title": "Manikk | Портфолио",
+        "title": "Manik",
         "faceit_profile": "Профиль Faceit",
         "steam_profile": "Профиль Steam",
         "stats_title": "Статистика",
@@ -160,7 +160,7 @@ const translations = {
         "score": "Счет"
     },
     "da": {
-        "title": "Manikk | Portefølje",
+        "title": "Manik",
         "faceit_profile": "Faceit Profil",
         "steam_profile": "Steam Profil",
         "stats_title": "Statistik",
@@ -200,7 +200,7 @@ const translations = {
         "score": "Score"
     },
     "uk": {
-        "title": "Manikk | Портфоліо",
+        "title": "Manik",
         "faceit_profile": "Профіль Faceit",
         "steam_profile": "Профіль Steam",
         "stats_title": "Статистика",
@@ -240,7 +240,7 @@ const translations = {
         "score": "Рахунок"
     },
     "fr": {
-        "title": "Manikk | Portfolio",
+        "title": "Manik",
         "faceit_profile": "Profil Faceit",
         "steam_profile": "Profil Steam",
         "stats_title": "Statistiques",
@@ -280,7 +280,7 @@ const translations = {
         "score": "Score"
     },
     "ro": {
-        "title": "Manikk | Portofoliu",
+        "title": "Manik",
         "faceit_profile": "Profil Faceit",
         "steam_profile": "Profil Steam",
         "stats_title": "Statistici",
@@ -320,7 +320,7 @@ const translations = {
         "score": "Scor"
     },
     "pt": {
-        "title": "Manikk | Portfólio",
+        "title": "Manik",
         "faceit_profile": "Perfil Faceit",
         "steam_profile": "Perfil Steam",
         "stats_title": "Estatísticas",
