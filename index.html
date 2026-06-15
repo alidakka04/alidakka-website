@@ -85,6 +85,14 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #3f3f46; 
       }
+      /* Hide Scrollbar for Carousel */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
     </style>
     <link rel="icon" href="logo2.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -166,66 +174,85 @@
         </section>
 
         <!-- Clips Section -->
-        <section id="clips-section" class="glass-panel p-8 md:p-12">
-            <div class="mb-10 pb-6 border-b border-white/5">
-                <h2 class="text-3xl font-bold text-white mb-2 tracking-tight" data-i18n="clips_title">Klipler</h2>
-                <p class="text-zinc-400 text-sm" data-i18n="clips_desc">En iyi anlar ve vuruşlar</p>
+        <section id="clips-section" class="glass-panel p-8 md:p-12 relative group/carousel">
+            <div class="mb-8 pb-4 border-b border-white/5 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2 tracking-tight" data-i18n="clips_title">Klipler</h2>
+                    <p class="text-zinc-400 text-sm" data-i18n="clips_desc">En iyi anlar ve vuruşlar</p>
+                </div>
+                <!-- Navigation Arrows -->
+                <div class="hidden md:flex gap-3">
+                    <button id="clip-prev" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-faceit hover:border-faceit transition-all z-10 shadow-lg hover:shadow-[0_0_15px_rgba(14,165,233,0.5)]">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button id="clip-next" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-faceit hover:border-faceit transition-all z-10 shadow-lg hover:shadow-[0_0_15px_rgba(14,165,233,0.5)]">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Video 1 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/69dc5c44c7c5672c48380998.mp4" type="video/mp4">
-                    </video>
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] ring-1 ring-white/10 bg-black/50">
+                <!-- Carousel Container -->
+                <div id="clips-container" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth w-full aspect-video">
+                    <!-- Video 1 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/69dc5c44c7c5672c48380998.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 2 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/69f7e784d82576475b036c7f.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 3 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/69fc0338ce5c7c91b612c97d.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 4 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/69ffade64de19d817d6c9fab.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 5 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/69ffb7cfef4f4777f700d595.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 6 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/6a03a1ca56ab548c576edba6.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 7 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/6a0539f1d0a17611170870c6.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 8 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/6a0a020e67958bddd8aa73a2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <!-- Video 9 -->
+                    <div class="min-w-full flex-shrink-0 snap-center relative flex items-center justify-center">
+                        <video class="w-full h-full object-contain" controls preload="metadata">
+                            <source src="KLİP/6a0c8326f7c298eac5df1072.mp4" type="video/mp4">
+                        </video>
+                    </div>
                 </div>
-                <!-- Video 2 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/69f7e784d82576475b036c7f.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 3 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/69fc0338ce5c7c91b612c97d.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 4 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/69ffade64de19d817d6c9fab.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 5 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/69ffb7cfef4f4777f700d595.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 6 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/6a03a1ca56ab548c576edba6.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 7 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/6a0539f1d0a17611170870c6.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 8 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/6a0a020e67958bddd8aa73a2.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <!-- Video 9 -->
-                <div class="glass-card overflow-hidden rounded-[1rem] group relative aspect-video shadow-[0_0_15px_rgba(14,165,233,0.1)] hover:shadow-[0_0_25px_rgba(14,165,233,0.3)] transition-all duration-300">
-                    <video class="w-full h-full object-cover" controls preload="metadata">
-                        <source src="KLİP/6a0c8326f7c298eac5df1072.mp4" type="video/mp4">
-                    </video>
+
+                <!-- Pagination Dots -->
+                <div id="clips-pagination" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 z-20 transition-opacity duration-300 opacity-0 group-hover/carousel:opacity-100">
+                    <!-- Dots will be injected via JS -->
                 </div>
             </div>
         </section>

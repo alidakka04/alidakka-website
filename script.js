@@ -219,3 +219,74 @@ specItems.forEach(item => {
         }
     });
 });
+
+// --- Clips Carousel Logic ---
+const clipsContainer = document.getElementById('clips-container');
+if (clipsContainer) {
+    const clips = Array.from(clipsContainer.querySelectorAll('video'));
+    const prevBtn = document.getElementById('clip-prev');
+    const nextBtn = document.getElementById('clip-next');
+    const paginationContainer = document.getElementById('clips-pagination');
+
+    // Create pagination dots
+    clips.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${index === 0 ? 'bg-faceit w-8 shadow-[0_0_10px_rgba(14,165,233,0.8)]' : 'bg-white/30 hover:bg-white/70'}`;
+        dot.addEventListener('click', () => {
+            clipsContainer.scrollTo({
+                left: index * clipsContainer.clientWidth,
+                behavior: 'smooth'
+            });
+        });
+        paginationContainer.appendChild(dot);
+    });
+
+    const dots = Array.from(paginationContainer.children);
+
+    // Update dots on scroll
+    clipsContainer.addEventListener('scroll', () => {
+        const scrollPosition = clipsContainer.scrollLeft;
+        const containerWidth = clipsContainer.clientWidth;
+        const activeIndex = Math.round(scrollPosition / containerWidth);
+
+        dots.forEach((dot, index) => {
+            if (index === activeIndex) {
+                dot.className = 'w-8 h-2 rounded-full transition-all duration-300 bg-faceit shadow-[0_0_10px_rgba(14,165,233,0.8)]';
+            } else {
+                dot.className = 'w-2 h-2 rounded-full transition-all duration-300 bg-white/30 hover:bg-white/70';
+            }
+        });
+    });
+
+    // Arrow controls
+    prevBtn?.addEventListener('click', () => {
+        clipsContainer.scrollBy({ left: -clipsContainer.clientWidth, behavior: 'smooth' });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        clipsContainer.scrollBy({ left: clipsContainer.clientWidth, behavior: 'smooth' });
+    });
+
+    // Autoplay/Pause videos with Intersection Observer
+    const observerOptions = {
+        root: clipsContainer,
+        rootMargin: '0px',
+        threshold: 0.6 // Video must be at least 60% visible
+    };
+
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+                video.play().catch(e => console.log('Autoplay prevented by browser', e));
+            } else {
+                video.pause();
+            }
+        });
+    }, observerOptions);
+
+    clips.forEach(video => {
+        videoObserver.observe(video);
+        video.volume = 0.4; // Set a default reasonable volume
+    });
+}
