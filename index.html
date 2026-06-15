@@ -180,18 +180,17 @@
                     <h2 class="text-3xl font-bold text-white mb-2 tracking-tight" data-i18n="clips_title">Klipler</h2>
                     <p class="text-zinc-400 text-sm" data-i18n="clips_desc">En iyi anlar ve vuruşlar</p>
                 </div>
-                <!-- Navigation Arrows -->
-                <div class="hidden md:flex gap-3">
-                    <button id="clip-prev" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-faceit hover:border-faceit transition-all z-10 shadow-lg hover:shadow-[0_0_15px_rgba(14,165,233,0.5)]">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <button id="clip-next" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-faceit hover:border-faceit transition-all z-10 shadow-lg hover:shadow-[0_0_15px_rgba(14,165,233,0.5)]">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
             </div>
             
             <div class="relative w-full rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] ring-1 ring-white/10 bg-black/50">
+                <!-- Floating Navigation Arrows -->
+                <button id="clip-prev" class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/10 items-center justify-center text-white hover:bg-faceit hover:border-faceit transition-all z-30 shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] hover:scale-110 opacity-0 group-hover/carousel:opacity-100">
+                    <i class="fa-solid fa-chevron-left text-lg"></i>
+                </button>
+                <button id="clip-next" class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/10 items-center justify-center text-white hover:bg-faceit hover:border-faceit transition-all z-30 shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] hover:scale-110 opacity-0 group-hover/carousel:opacity-100">
+                    <i class="fa-solid fa-chevron-right text-lg"></i>
+                </button>
+
                 <!-- Carousel Container -->
                 <div id="clips-container" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth w-full aspect-video">
                     <!-- Video 1 (Former Video 9 - ACE Clip) -->
