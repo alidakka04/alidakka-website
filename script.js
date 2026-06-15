@@ -277,9 +277,8 @@ if (clipsContainer) {
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const video = entry.target;
-            if (entry.isIntersecting) {
-                video.play().catch(e => console.log('Autoplay prevented by browser', e));
-            } else {
+            if (!entry.isIntersecting) {
+                // Video ekrandan çıkınca durdur, ama ekrana girince otomatik oynatma (kullanıcı kendi tıklayıp başlatacak)
                 video.pause();
             }
         });
