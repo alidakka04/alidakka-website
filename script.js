@@ -43,9 +43,7 @@ window.changeLang = function(lang) {
 document.addEventListener('DOMContentLoaded', applyTranslations);
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchUserLinks();
     fetchFaceitStats();
-    fetchSteamInventory();
 });
 
 async function fetchFaceitStats() {
@@ -291,60 +289,3 @@ if (clipsContainer) {
         video.volume = 0.4; // Set a default reasonable volume
     });
 }
-
-// --- Dynamic Links & Steam Inventory Logic ---
-async function fetchUserLinks() {
-    try {
-        const response = await fetch('https://api.manikk.info/user_links/user1');
-        if (!response.ok) return;
-        const data = await response.json();
-        
-        if (data.steam_id && data.steam_id !== '-') {
-            const btn = document.getElementById('steam-profile-btn');
-            if (btn) btn.href = `https://steamcommunity.com/profiles/${data.steam_id}`;
-        }
-    } catch (error) {
-        console.warn('Kullanici baglantilari cekilemedi:', error);
-    }
-}
-
-async function fetchSteamInventory() {
-    try {
-        const response = await fetch('https://api.manikk.info/steam/inventory/user1');
-        if (!response.ok) throw new Error('Envanter API bulunamadi.');
-        
-        const data = await response.json();
-        const section = document.getElementById('inventory-section');
-        const loading = document.getElementById('inventory-loading');
-        const container = document.getElementById('inventory-data');
-        
-        if (data && data.length > 0) {
-            section.classList.remove('hidden');
-            loading.classList.add('hidden');
-            container.classList.remove('hidden');
-            
-            container.innerHTML = '';
-            data.forEach(item => {
-                const color = item.rarity_color || '#ffffff';
-                const nameParts = item.name.split(' | ');
-                const weaponName = nameParts[0].trim();
-                const skinName = nameParts.length > 1 ? nameParts[1].trim() : '';
-                
-                container.innerHTML += `
-                    <div class="glass-card p-4 flex flex-col items-center justify-center text-center rarity-border" style="--r-color: ${color}">
-                        <img src="${item.icon_url}" alt="${item.name}" class="h-20 object-contain mb-3 drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-[10px] text-zinc-400 font-bold tracking-wider">${weaponName}</span>
-                        ${skinName ? `<span class="font-bold text-[13px] leading-tight mt-1" style="color: ${color}; text-shadow: 0 0 10px ${color}40;">${skinName}</span>` : ''}
-                    </div>
-                `;
-            });
-        } else {
-            // No items or hidden inventory
-            loading.innerHTML = '<p class="text-zinc-500 font-medium">Gosterilecek degerli esya bulunamadi veya envanter gizli.</p>';
-        }
-    } catch (error) {
-        console.warn('Steam Envanter cekilemedi:', error);
-        document.getElementById('inventory-loading').innerHTML = '<p class="text-red-500 font-medium">Envanter yuklenirken hata olustu.</p>';
-    }
-}
-
