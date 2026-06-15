@@ -23,7 +23,10 @@ USERS_FILE = os.path.join(os.path.dirname(__file__), "users.json")
 
 # Cache variables: Dictionary { "user_id": {"data": {...}, "time": float} }
 FACEIT_CACHE = {}
-CACHE_DURATION = 1800  # 30 dakika (saniye cinsinden)
+CACHE_DURATION = 1800  # 30 dakika
+
+STEAM_CACHE = {}
+STEAM_CACHE_DURATION = 10800  # 3 saat (10800 saniye)
 
 def load_users():
     if not os.path.exists(USERS_FILE):
@@ -66,7 +69,7 @@ ADMIN_HTML = """
     <title>Admin Paneli</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         h1 { color: #333; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
@@ -98,6 +101,10 @@ ADMIN_HTML = """
                 <label>Faceit Nickname:</label>
                 <input type="text" id="faceit_nickname" placeholder="Faceit Kullanıcı Adı" required>
             </div>
+            <div class="form-group">
+                <label>Steam ID64 (İsteğe bağlı - Envanter için):</label>
+                <input type="text" id="steam_id" placeholder="Örn: 76561198858013891">
+            </div>
             <button type="submit" style="width: 100%; margin-top: 10px;">Kullanıcıyı Kaydet (Sonra Davet Linkini Arkadaşa At)</button>
         </form>
 
@@ -107,6 +114,7 @@ ADMIN_HTML = """
                 <tr>
                     <th>User ID</th>
                     <th>Faceit Nickname</th>
+                    <th>Steam ID</th>
                     <th>Spotify Durumu</th>
                     <th>Davet İşlemleri</th>
                     <th>Sil</th>
@@ -137,6 +145,7 @@ ADMIN_HTML = """
                     <tr>
                         <td><strong>${userId}</strong></td>
                         <td>${data.faceit_nickname}</td>
+                        <td>${data.steam_id || '-'}</td>
                         <td>${statusHtml}</td>
                         <td>
                             <button class="copy-btn" onclick="copyLink('${inviteLink}')">Link Kopyala</button>
@@ -160,6 +169,7 @@ ADMIN_HTML = """
             const user_id = document.getElementById('user_id').value;
             const data = {
                 faceit_nickname: document.getElementById('faceit_nickname').value,
+                steam_id: document.getElementById('steam_id').value,
                 spotify_refresh_token: "" // Yeni eklenen kullanıcıda token boştur
             };
             await fetch('/admin/users/' + user_id, {
@@ -205,6 +215,7 @@ def save_user(user_id):
     
     users[user_id] = {
         "faceit_nickname": data.get("faceit_nickname", existing.get("faceit_nickname", "")),
+        "steam_id": data.get("steam_id", existing.get("steam_id", "")),
         "spotify_refresh_token": data.get("spotify_refresh_token", existing.get("spotify_refresh_token", ""))
     }
     save_users(users)
@@ -290,6 +301,107 @@ def spotify_callback():
         
     except Exception as e:
         return f"Token alinamadi: {e}", 500
+
+
+# --- STEAM INVENTORY API ---
+@app.route('/steam/inventory/<user_id>', methods=['GET'])
+def steam_inventory(user_id):
+    global STEAM_CACHE
+    users = load_users()
+    
+    if user_id not in users:
+        return jsonify({"error": "Kullanici bulunamadi"}), 404
+        
+    steam_id = users[user_id].get("steam_id")
+    if not steam_id:
+        return jsonify({"error": "Kullanicinin Steam ID bilgisi yok"}), 400
+
+    current_time = time.time()
+    if user_id in STEAM_CACHE:
+        cache_data = STEAM_CACHE[user_id]
+        if (current_time - cache_data["time"]) < STEAM_CACHE_DURATION:
+            return jsonify(cache_data["data"])
+
+    try:
+        url = f"https://steamcommunity.com/inventory/{steam_id}/730/2?l=turkish&count=2000"
+        res = requests.get(url, timeout=15)
+        if res.status_code != 200:
+            return jsonify({"error": f"Steam envanteri alinamadi (Kod: {res.status_code}). Gizli olabilir veya Steam engelledi."}), res.status_code
+        
+        data = res.json()
+        if not data or not data.get("assets") or not data.get("descriptions"):
+            return jsonify([])
+            
+        assets = data["assets"]
+        descriptions = data["descriptions"]
+        
+        desc_map = {}
+        for d in descriptions:
+            key = f"{d.get('classid')}_{d.get('instanceid')}"
+            desc_map[key] = d
+            
+        inventory_items = []
+        # Ayni esyadan birden fazla varsa sadece 1 tanesini gostermek daha temiz olabilir ama kullanici belki 2 bicak seviyordur. Ayni asseti eklememek icin isim kontrolu de yapabiliriz, ya da asset map kullanabiliriz.
+        seen_instance_ids = set()
+        
+        for asset in assets:
+            classid = asset.get('classid')
+            instanceid = asset.get('instanceid')
+            
+            # Aynı instanceid olan kopyaları atla (stackli eşyalar)
+            if f"{classid}_{instanceid}" in seen_instance_ids:
+                continue
+            seen_instance_ids.add(f"{classid}_{instanceid}")
+            
+            key = f"{classid}_{instanceid}"
+            desc = desc_map.get(key)
+            if not desc: continue
+            
+            tags = desc.get("tags", [])
+            item_type = next((t["internal_name"] for t in tags if t.get("category") == "Type"), "")
+            rarity = next((t["internal_name"] for t in tags if t.get("category") == "Rarity"), "")
+            rarity_color = next((t.get("color", "") for t in tags if t.get("category") == "Rarity"), "")
+            
+            # Sadece Silah, Bıçak, Eldiven, Ajan kalsın
+            valid_types = ["CSGO_Type_Knife", "CSGO_Type_Weapon", "Type_Hands", "Type_CustomPlayer"]
+            if not any(item_type.startswith(vt) for vt in valid_types):
+                continue
+                
+            # Ucuz silahları gizle (Consumer/Industrial)
+            if item_type.startswith("CSGO_Type_Weapon"):
+                if rarity in ["rarity_common", "rarity_uncommon"]:
+                    continue
+                    
+            item = {
+                "name": desc.get("name", "Bilinmeyen Eşya"),
+                "icon_url": f"https://community.cloudflare.steamstatic.com/economy/image/{desc.get('icon_url')}",
+                "rarity": rarity,
+                "rarity_color": f"#{rarity_color}" if rarity_color else "#ffffff",
+                "type": item_type
+            }
+            inventory_items.append(item)
+            
+        def get_sort_score(item):
+            t = item["type"]
+            r = item["rarity"]
+            score = 0
+            if "Knife" in t: score += 1000
+            elif "Hands" in t: score += 900
+            elif "CustomPlayer" in t: score += 800
+            
+            if "covert" in r: score += 70
+            elif "classified" in r: score += 60
+            elif "restricted" in r: score += 50
+            elif "milspec" in r: score += 40
+            return score
+            
+        inventory_items.sort(key=get_sort_score, reverse=True)
+        
+        STEAM_CACHE[user_id] = {"data": inventory_items, "time": current_time}
+        return jsonify(inventory_items)
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 # --- FACEIT API ---
@@ -459,6 +571,19 @@ def spotify(user_id):
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# Endpoint to fetch user public profile links (Steam)
+@app.route('/user_links/<user_id>', methods=['GET'])
+def get_user_links(user_id):
+    users = load_users()
+    if user_id not in users:
+        return jsonify({"error": "Kullanici bulunamadi"}), 404
+        
+    steam_id = users[user_id].get("steam_id")
+    return jsonify({
+        "steam_id": steam_id,
+        "faceit_nickname": users[user_id].get("faceit_nickname")
+    })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
