@@ -63,52 +63,94 @@ ADMIN_HTML = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Paneli</title>
+    <title>Manikk - Admin Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #eee; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 5px; }
-        button { padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;}
-        button:hover { background: #0056b3; }
-        .delete-btn { background: #dc3545; padding: 5px 10px; }
-        .delete-btn:hover { background: #c82333; }
-        .copy-btn { background: #1DB954; padding: 5px 10px; margin-right: 5px;}
-        .copy-btn:hover { background: #1ed760; }
-        .status-ok { color: #1DB954; font-weight: bold; }
-        .status-wait { color: #f39c12; font-weight: bold; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            /* Harika bir soyut/oyuncu arkaplanı */
+            background: url('https://images.unsplash.com/photo-1614145121029-83a9f7b68bf4?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff; 
+            margin: 0; 
+            padding: 40px 20px; 
+            min-height: 100vh;
+        }
+        /* Arkaplanı biraz karartıp bulanıklaştırıyoruz ki yazılar okunsun */
+        .overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            z-index: -1;
+        }
+        .container { 
+            max-width: 1000px; margin: auto; 
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 40px; border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            backdrop-filter: blur(20px);
+        }
+        .logo-area { text-align: center; margin-bottom: 40px; }
+        .logo-area h1 { color: #fff; margin: 0; font-weight: 800; font-size: 2.8em; text-shadow: 0 0 20px rgba(14, 165, 233, 0.4); letter-spacing: -1px; }
+        .logo-area p { color: #0ea5e9; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85em; margin-top: 5px; }
+        
+        h3 { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 40px; font-weight: 600; color: #e2e8f0; }
+        
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 20px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        th, td { padding: 16px; text-align: left; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.02); }
+        th { background: rgba(0,0,0,0.6); font-weight: 600; text-transform: uppercase; font-size: 0.75em; letter-spacing: 1.5px; color: #94a3b8; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9em; color: #cbd5e1; }
+        .form-group input { width: 100%; padding: 14px; box-sizing: border-box; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); color: white; font-family: 'Inter'; outline: none; transition: all 0.3s; }
+        .form-group input:focus { border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14,165,233,0.2); }
+        .form-group input::placeholder { color: #475569; }
+        
+        button { padding: 12px 20px; background: #0ea5e9; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-family: 'Inter'; box-shadow: 0 0 15px rgba(14,165,233,0.3); }
+        button:hover { background: #0284c7; transform: translateY(-2px); box-shadow: 0 0 20px rgba(14,165,233,0.5); }
+        
+        .delete-btn { background: transparent; color: #ef4444; border: 1px solid #ef4444; box-shadow: none; padding: 8px 16px; font-size: 0.85em; }
+        .delete-btn:hover { background: #ef4444; color: white; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
+        
+        .copy-btn { background: #1DB954; font-size: 0.85em; padding: 8px 16px; box-shadow: 0 0 15px rgba(29,185,84,0.2);}
+        .copy-btn:hover { background: #1ed760; box-shadow: 0 0 20px rgba(29,185,84,0.4); }
+        
+        .status-ok { color: #1DB954; font-weight: bold; display: inline-flex; items-center; gap: 5px; }
+        .status-wait { color: #f59e0b; font-weight: bold; display: inline-flex; items-center; gap: 5px; }
     </style>
 </head>
 <body>
+    <div class="overlay"></div>
     <div class="container">
-        <h1>Manikk API - Admin Paneli</h1>
+        <div class="logo-area">
+            <h1>Manikk Yönetim</h1>
+            <p>Sistem Kontrol Merkezi</p>
+        </div>
         
-        <h3>Yeni Kullanıcı Ekle</h3>
+        <h3>👤 Yeni Kullanıcı Ekle</h3>
         <form id="userForm">
             <div class="form-group">
-                <label>User ID (örn: user2):</label>
-                <input type="text" id="user_id" placeholder="Kullanıcı kimliği (Boşluksuz İngilizce karakter)" required>
+                <label>Kullanıcı ID (Örn: user2)</label>
+                <input type="text" id="user_id" placeholder="Sistemde tanınacak boşluksuz isim" required>
             </div>
             <div class="form-group">
-                <label>Faceit Nickname:</label>
-                <input type="text" id="faceit_nickname" placeholder="Faceit Kullanıcı Adı" required>
+                <label>Faceit Nickname</label>
+                <input type="text" id="faceit_nickname" placeholder="Faceit sitesindeki tam kullanıcı adı" required>
             </div>
-            <button type="submit" style="width: 100%; margin-top: 10px;">Kullanıcıyı Kaydet (Sonra Davet Linkini Arkadaşa At)</button>
+            <button type="submit" style="width: 100%; margin-top: 10px; padding: 16px; font-size: 1.1em;">Kullanıcıyı Kaydet (Sonra Davet Linkini At)</button>
         </form>
 
-        <h3 style="margin-top: 40px;">Kayıtlı Kullanıcılar</h3>
+        <h3 style="margin-top: 50px;">📋 Kayıtlı Kullanıcılar</h3>
         <table>
             <thead>
                 <tr>
                     <th>User ID</th>
                     <th>Faceit Nickname</th>
                     <th>Spotify Durumu</th>
-                    <th>Davet İşlemleri</th>
+                    <th>İşlemler</th>
                     <th>Sil</th>
                 </tr>
             </thead>
@@ -139,9 +181,9 @@ ADMIN_HTML = """
                         <td>${data.faceit_nickname}</td>
                         <td>${statusHtml}</td>
                         <td>
-                            <button class="copy-btn" onclick="copyLink('${inviteLink}')">Link Kopyala</button>
+                            <button class="copy-btn" onclick="copyLink('${inviteLink}')">🔗 Spotify Davet Linki Kopyala</button>
                         </td>
-                        <td><button class="delete-btn" onclick="deleteUser('${userId}')">Sil</button></td>
+                        <td><button class="delete-btn" onclick="deleteUser('${userId}')">✖ Sil</button></td>
                     </tr>
                 `;
             }
@@ -160,7 +202,7 @@ ADMIN_HTML = """
             const user_id = document.getElementById('user_id').value;
             const data = {
                 faceit_nickname: document.getElementById('faceit_nickname').value,
-                spotify_refresh_token: "" // Yeni eklenen kullanıcıda token boştur
+                spotify_refresh_token: "" 
             };
             await fetch('/admin/users/' + user_id, {
                 method: 'POST',
