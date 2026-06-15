@@ -108,11 +108,14 @@ function renderFaceitData(data) {
                 kdClass = "text-emerald-400";
             }
             
+            let formattedMap = match.map ? match.map.replace(/^(de_|cs_)/i, '') : 'Bilinmeyen';
+            formattedMap = formattedMap.charAt(0).toUpperCase() + formattedMap.slice(1);
+            
             matchDiv.innerHTML = `
                 <div class="absolute left-0 top-0 bottom-0 w-1 ${isWin ? 'bg-emerald-500' : 'bg-red-500'}"></div>
                 <div class="flex flex-col relative z-10 pl-2">
                     <div class="flex items-center gap-3">
-                        <span class="font-bold text-white text-lg">${match.map}</span>
+                        <span class="font-bold text-white text-lg">${formattedMap}</span>
                         <span class="font-semibold px-2 py-0.5 rounded bg-white/5 text-zinc-300 text-sm border border-white/5">${match.score}</span>
                     </div>
                     ${dateStr ? `<span class="text-[11px] text-zinc-400 mt-1 font-medium tracking-wide">🕒 ${dateStr}</span>` : ''}
