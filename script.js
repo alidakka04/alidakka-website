@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchFaceitStats() {
     try {
-        const response = await fetch('https://api.manikk.info/faceit');
+        const response = await fetch('https://api.manikk.info/faceit/user1');
         
         if (!response.ok) {
             throw new Error('API Bulunamadı veya çalışmıyor.');
@@ -151,7 +151,7 @@ function formatTime(ms) {
 
 async function updateSpotify() {
     try {
-        const response = await fetch('https://api.manikk.info/spotify');
+        const response = await fetch('https://api.manikk.info/spotify/user1');
         if (!response.ok) return;
         const data = await response.json();
 
