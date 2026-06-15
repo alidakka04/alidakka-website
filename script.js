@@ -110,6 +110,7 @@ function renderFaceitData(data) {
             
             let formattedMap = match.map ? match.map.replace(/^(de_|cs_)/i, '') : 'Bilinmeyen';
             formattedMap = formattedMap.charAt(0).toUpperCase() + formattedMap.slice(1);
+            formattedMap = formattedMap.replace(/([a-zA-Z])(\d+)/g, '$1 $2');
             
             matchDiv.innerHTML = `
                 <div class="absolute left-0 top-0 bottom-0 w-1 ${isWin ? 'bg-emerald-500' : 'bg-red-500'}"></div>
