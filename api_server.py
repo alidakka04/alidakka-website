@@ -23,7 +23,10 @@ USERS_FILE = os.path.join(os.path.dirname(__file__), "users.json")
 
 # Cache variables: Dictionary { "user_id": {"data": {...}, "time": float} }
 FACEIT_CACHE = {}
-CACHE_DURATION = 1800  # 30 dakika
+CACHE_DURATION = 180  # 3 dakika (veriler geç gelmesin diye süreyi kısalttık)
+
+# Bitmiş bir maçın skorları bir daha değişmeyeceği için Faceit'e boşuna istek atmamak adına maçları burada tutuyoruz.
+MATCH_CACHE = {}
 
 def load_users():
     if not os.path.exists(USERS_FILE):
@@ -337,7 +340,7 @@ def spotify_callback():
 # --- FACEIT API ---
 @app.route('/faceit/<user_id>', methods=['GET'])
 def faceit(user_id):
-    global FACEIT_CACHE
+    global FACEIT_CACHE, MATCH_CACHE
     users = load_users()
     
     if user_id not in users:
@@ -388,10 +391,14 @@ def faceit(user_id):
                 match_id = item.get("match_id")
                 finished_at = item.get("finished_at")
                 
-                match_stats_res = requests.get(f"https://open.faceit.com/data/v4/matches/{match_id}/stats", headers=headers)
-                if match_stats_res.status_code != 200: continue
-                
-                match_stats_data = match_stats_res.json()
+                if match_id in MATCH_CACHE:
+                    match_stats_data = MATCH_CACHE[match_id]
+                else:
+                    match_stats_res = requests.get(f"https://open.faceit.com/data/v4/matches/{match_id}/stats", headers=headers)
+                    if match_stats_res.status_code != 200: continue
+                    
+                    match_stats_data = match_stats_res.json()
+                    MATCH_CACHE[match_id] = match_stats_data
                 rounds = match_stats_data.get("rounds", [])
                 if not rounds: continue
                 
