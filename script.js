@@ -145,9 +145,9 @@ function renderFaceitData(data) {
                     ${dateStr ? `<span class="text-[11px] text-zinc-400 mt-1 font-medium tracking-wide">🕒 ${dateStr}</span>` : ''}
                 </div>
                 <div class="text-right flex flex-col items-end justify-center">
-                    <div class="text-xl font-black text-white tracking-tight">${match.kills}<span class="text-zinc-400 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${ratingClass}">${rating} RTG</span></div>
+                    <div class="text-xl font-black text-white tracking-tight">${match.kills}<span class="text-zinc-400 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${ratingClass}">${rating} Rating</span></div>
                     <div class="text-xs text-zinc-400 mt-1 font-medium flex items-center gap-2">
-                        <span class="${kdClass} font-semibold">${matchKd} K/D</span>
+                        <span>${matchKd} <span class="text-[9px] uppercase tracking-widest">K/D</span></span>
                         ${match.adr !== "?" ? `<span><span class="text-zinc-600">|</span> ${match.adr} <span class="text-[9px] uppercase tracking-widest">ADR</span></span>` : ''}
                     </div>
                 </div>
