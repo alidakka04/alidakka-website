@@ -28,6 +28,9 @@ CACHE_DURATION = 180  # 3 dakika (veriler geç gelmesin diye süreyi kısalttık
 # Bitmiş bir maçın skorları bir daha değişmeyeceği için Faceit'e boşuna istek atmamak adına maçları burada tutuyoruz.
 MATCH_CACHE = {}
 
+# Spotify API token gereksiz yere yenilenmesin diye cache
+SPOTIFY_TOKEN_CACHE = {}
+
 def load_users():
     if not os.path.exists(USERS_FILE):
         return {}
@@ -333,7 +336,7 @@ def spotify_callback():
         </body></html>
         '''
         
-        except Exception as e:
+    except Exception as e:
         return f"Token alinamadi: {e}", 500
 
 
@@ -383,11 +386,14 @@ def faceit(user_id):
             average_kd = lifetime.get("Average K/D Ratio", "-")
             win_rate = lifetime.get("Win Rate %", "-")
 
-        history_res = requests.get(f"https://open.faceit.com/data/v4/players/{player_id}/history?game=cs2&offset=0&limit=5", headers=headers)
+        history_res = requests.get(f"https://open.faceit.com/data/v4/players/{player_id}/history?game=cs2&offset=0&limit=20", headers=headers)
         recent_matches = []
+        sum_kills = 0
+        sum_deaths = 0
+        
         if history_res.status_code == 200:
             history_data = history_res.json()
-            for item in history_data.get("items", []):
+            for i, item in enumerate(history_data.get("items", [])):
                 match_id = item.get("match_id")
                 finished_at = item.get("finished_at")
                 
@@ -425,19 +431,28 @@ def faceit(user_id):
                     else:
                         enemy_team_score = team.get("team_stats", {}).get("Final Score", "")
                 
-                if player_team_score and enemy_team_score:
-                    score = f"{player_team_score} / {enemy_team_score}"
+                sum_kills += p_kills
+                sum_deaths += p_deaths
+
+                if i < 5:
+                    if player_team_score and enemy_team_score:
+                        score = f"{player_team_score} / {enemy_team_score}"
+                        
+                    recent_matches.append({
+                        "match_id": match_id,
+                        "is_win": is_win,
+                        "map": map_name,
+                        "score": score,
+                        "kills": p_kills,
+                        "deaths": p_deaths,
+                        "adr": p_adr,
+                        "finished_at": finished_at
+                    })
                     
-                recent_matches.append({
-                    "match_id": match_id,
-                    "is_win": is_win,
-                    "map": map_name,
-                    "score": score,
-                    "kills": p_kills,
-                    "deaths": p_deaths,
-                    "adr": p_adr,
-                    "finished_at": finished_at
-                })
+            if sum_deaths > 0:
+                average_kd = f"{sum_kills / sum_deaths:.2f}"
+            elif sum_kills > 0:
+                average_kd = f"{sum_kills:.2f}"
 
         data_to_cache = {
             "skill_level": cs2_data.get("skill_level", 1),
@@ -456,6 +471,7 @@ def faceit(user_id):
 # --- SPOTIFY API ---
 @app.route('/spotify/<user_id>', methods=['GET'])
 def spotify(user_id):
+    global SPOTIFY_TOKEN_CACHE
     users = load_users()
     if user_id not in users:
         return jsonify({"error": "Kullanici bulunamadi"}), 404
@@ -470,19 +486,26 @@ def spotify(user_id):
     basic_auth = base64.b64encode(f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}".encode()).decode()
     
     try:
-        token_res = requests.post(
-            "https://accounts.spotify.com/api/token",
-            headers={
-                "Authorization": f"Basic {basic_auth}",
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            data={
-                "grant_type": "refresh_token",
-                "refresh_token": refresh_token
-            }
-        )
-        token_res.raise_for_status()
-        access_token = token_res.json().get("access_token")
+        current_time = time.time()
+        cached = SPOTIFY_TOKEN_CACHE.get(user_id)
+        
+        if cached and (current_time - cached["time"]) < 3000: # 50 dk geçerli (Spotify token'ları 60 dk geçerlidir)
+            access_token = cached["token"]
+        else:
+            token_res = requests.post(
+                "https://accounts.spotify.com/api/token",
+                headers={
+                    "Authorization": f"Basic {basic_auth}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data={
+                    "grant_type": "refresh_token",
+                    "refresh_token": refresh_token
+                }
+            )
+            token_res.raise_for_status()
+            access_token = token_res.json().get("access_token")
+            SPOTIFY_TOKEN_CACHE[user_id] = {"token": access_token, "time": current_time}
 
         playing_res = requests.get(
             "https://api.spotify.com/v1/me/player/currently-playing",

@@ -103,9 +103,32 @@ function renderFaceitData(data) {
             let kdClass = "text-red-400";
             const kdValue = parseFloat(matchKd);
             if (kdValue >= 1.50) {
-                kdClass = "text-yellow-400 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)] font-black";
+                kdClass = "text-yellow-400";
             } else if (kdValue >= 1.0) {
                 kdClass = "text-emerald-400";
+            }
+
+            // Calculate Rating
+            const scoreParts = match.score.split('/');
+            let rounds = 1;
+            if (scoreParts.length === 2) {
+                rounds = parseInt(scoreParts[0].trim()) + parseInt(scoreParts[1].trim());
+            }
+            if (rounds < 1) rounds = 1;
+            
+            const kpr = match.kills / rounds;
+            const dpr = match.deaths / rounds;
+            const adr = match.adr !== "?" ? parseFloat(match.adr) : 73.0;
+            
+            let rating = ((kpr / 0.677) * 0.35) + ((0.679 / (dpr === 0 ? 0.01 : dpr)) * 0.35) + ((adr / 73.0) * 0.3);
+            rating = rating.toFixed(2);
+            
+            let ratingClass = "text-red-400";
+            const rtgValue = parseFloat(rating);
+            if (rtgValue >= 1.30) {
+                ratingClass = "text-yellow-400 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)] font-black";
+            } else if (rtgValue >= 1.0) {
+                ratingClass = "text-emerald-400";
             }
             
             let formattedMap = match.map ? match.map.replace(/^(de_|cs_)/i, '') : 'Bilinmeyen';
@@ -122,8 +145,11 @@ function renderFaceitData(data) {
                     ${dateStr ? `<span class="text-[11px] text-zinc-400 mt-1 font-medium tracking-wide">🕒 ${dateStr}</span>` : ''}
                 </div>
                 <div class="text-right flex flex-col items-end justify-center">
-                    <div class="text-xl font-black text-white tracking-tight">${match.kills}<span class="text-zinc-400 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${kdClass}">${matchKd} K/D</span></div>
-                    ${match.adr !== "?" ? `<div class="text-xs text-zinc-400 mt-1 font-medium">${match.adr} <span class="text-[9px] text-zinc-400 uppercase tracking-widest">ADR</span></div>` : ''}
+                    <div class="text-xl font-black text-white tracking-tight">${match.kills}<span class="text-zinc-400 font-medium text-sm mx-0.5">/</span>${match.deaths} <span class="text-xs ml-2 ${ratingClass}">${rating} RTG</span></div>
+                    <div class="text-xs text-zinc-400 mt-1 font-medium flex items-center gap-2">
+                        <span class="${kdClass} font-semibold">${matchKd} K/D</span>
+                        ${match.adr !== "?" ? `<span><span class="text-zinc-600">|</span> ${match.adr} <span class="text-[9px] uppercase tracking-widest">ADR</span></span>` : ''}
+                    </div>
                 </div>
             `;
             matchesList.appendChild(matchDiv);
